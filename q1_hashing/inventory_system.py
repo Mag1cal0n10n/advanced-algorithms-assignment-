@@ -25,7 +25,8 @@ while True:
     print("1. Insert medicine")
     print("2. Search medicine")
     print("3. Display all")
-    print("4. Exit")
+    print("4. Delete medicine")
+    print("5. Exit")
     choice = input("Enter your choice: ").strip()
 
     if choice == '1':
@@ -58,6 +59,7 @@ while True:
             else:
                 print(f"Medicine inserted into slot {result}.")
 
+    # Search for a medicine 
     elif choice == '2':
         try:
             product_id = int(input("Enter product ID to search: "))
@@ -74,7 +76,21 @@ while True:
 
     elif choice == '3':
         inv.display()
+
+    # Delete a medicine from the inventory
     elif choice == '4':
+        try:
+            product_id = int(input("Enter product ID to delete: "))
+        except ValueError:
+            print("Invalid input. Please enter a valid integer for product ID.")
+            continue
+
+        if inv.delete(product_id):
+            print(f"Medicine with product ID {product_id} deleted successfully.")
+        else:
+            print(f"Medicine with product ID {product_id} not found.")
+
+    elif choice == '5':
         print("Have a great day ahead! Goodbye...")
         break
     else:
