@@ -26,7 +26,8 @@ while True:
     print("2. Search medicine")
     print("3. Display all")
     print("4. Delete medicine")
-    print("5. Exit")
+    print("5. Edit Product Details")
+    print("6. Exit")
     choice = input("Enter your choice: ").strip()
 
     if choice == '1':
@@ -91,6 +92,61 @@ while True:
             print(f"Medicine with product ID {product_id} not found.")
 
     elif choice == '5':
+        try:
+            product_id = int(input("Enter product ID to edit: "))
+        except ValueError:
+            print("Invalid input. Please enter a valid product ID.")
+            continue
+
+        medicine = inv.search(product_id)
+        if medicine is None:
+            print(f"Medicine with product ID {product_id} not found.")
+            continue
+
+        print(f"Current details: {medicine}")
+        print("\nWhat would you like to modify?")
+        print("1. Name\n2. Price\n3. Stock")
+
+        try:
+            edit_choice = int(input("Enter your choice (1-3): "))
+        except ValueError:
+            print("Invalid input. Please enter a valid choice (1-3).")
+            continue
+
+        # Modify the medicine name   
+        if edit_choice == 1:
+            new_name = input("Enter new name: ").strip()
+            if new_name:
+                medicine.name = new_name
+                print("Name updated successfully.")
+            else:
+                print("Name cannot be empty.")
+
+        # Price modification
+        elif edit_choice == 2:
+            try:
+                new_price = float(input("Enter new price: "))
+                if new_price > 0:
+                    medicine.price = new_price
+                    print("Price updated successfully.")
+                else:
+                    print("Price must be positive.")
+            except ValueError:
+                print("Invalid input. Please enter a valid price.")
+
+        # Stock modification
+        elif edit_choice == 3:
+            try:
+                new_stock = int(input("Enter new stock quantity: "))
+                if new_stock >= 0:
+                    medicine.stock = new_stock
+                    print("Stock updated successfully.")
+                else:
+                    print("Stock cannot be negative.")
+            except ValueError:
+                print("Invalid input. Please enter a valid stock quantity.")
+
+    elif choice == '6':
         print("Have a great day ahead! Goodbye...")
         break
     else:
