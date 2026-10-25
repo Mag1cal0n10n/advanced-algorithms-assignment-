@@ -24,8 +24,17 @@ class HashTable:
             return -1
 
         index = self._hash(key)
+        checked = 0
+        first_tombstone = None # no tombstone seen yet
 
-        while self.table[index] is not None:
+        while self.table[index] is not None and checked < self.size:
+            if self.table[index] is self.DELETED:
+                if first_tombstone is None:
+                    first_tombstone = index # remember the first tombstone
+                index = (index + 1) % self.size
+                checked += 1
+                continue
+
             stored_key, stored_value = self.table[index]
 
             # Handles the case where the key already exists
@@ -33,6 +42,10 @@ class HashTable:
                 self.table[index] = (key, value) # update existing key
                 return index
             index = (index + 1) % self.size # linear probing
+            checked += 1
+
+        if first_tombstone is not None:
+            index = first_tombstone # reuse the first tombstone found
 
         self.table[index] = (key, value)
         self.count += 1
@@ -78,7 +91,30 @@ class HashTable:
 
         return False
 
-if __name__ == "__main__":        
+if __name__ == "__main__":
+    ht = HashTable(10)
+    print("1042 ->", ht.insert(1042, "Paracetamol"))
+    print("1035 ->", ht.insert(1035, "Ibuprofen"))
+    print("2052 ->", ht.insert(2052, "Vitamin C"))
+    print("3062 ->", ht.insert(3062, "Cough Syrup"))
+    ht.display()
+
+    print("Search 3062:", ht.search(3062))
+    print("Search 1035:", ht.search(1035))
+    print("Search 9999:", ht.search(9999))
+    print("Search 4072:", ht.search(4072))
+    print("Search 1036:", ht.search(1036))
+
+    print("\n---Full Table Test---")
+    small = HashTable(3)
+    print(small.insert(10, "A"))
+    print(small.insert(20, "B"))
+    print(small.insert(30, "C"))
+    print(small.insert(40, "D"))  # Should indicate that the table is full
+    print(small.search(30))
+    print(small.search(99)) # Should return None
+    small.display()
+
     print("\n--- Delete Test ---")
     t = HashTable(17)
     t.insert(1042, "A")
@@ -88,3 +124,7 @@ if __name__ == "__main__":
     print("Search 1076:", t.search(1076))   # expect C, i.e. it skips the tombstone!
     print("Delete 9999:", t.delete(9999))   # expect False
     t.display()                             # slot 6 should show Deleted
+
+    print("Re-insert 1076:", t.insert(1076, "new"))  # after deleting 1059 & 1076: expect 6 (reuses the first tombstone)
+    print("Search 1076:", t.search(1076))            # expect new
+    t.display()                                      # 6 = 1076 -> new, 7 = Deleted
