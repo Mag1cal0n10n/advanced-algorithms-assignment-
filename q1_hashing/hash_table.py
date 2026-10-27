@@ -52,7 +52,7 @@ class HashTable:
         return index
 
     def search(self, key):
-        index = self._hash(key)
+        index = self._hash(key) # key % size: jumps straight to the slot
         checked = 0
 
         while self.table[index] is not None and checked < self.size:
