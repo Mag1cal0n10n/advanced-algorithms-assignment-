@@ -183,6 +183,8 @@ while True:
                     print("Stock cannot be negative.")
             except ValueError:
                 print("Invalid input. Please enter a valid stock quantity.")
+        else:
+            print("There's no such option.")
 
     elif choice == '6':
         print("Have a great day ahead! Goodbye...")

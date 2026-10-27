@@ -11,12 +11,12 @@ class HashTable:
     def display(self):
         for i in range(self.size):
             if self.table[i] is None:
-                print(f"Slot {i}: Empty")
+                print(f"Slot {i:>2}: Empty")
             elif self.table[i] is self.DELETED:
-                print(f"Slot {i}: Deleted")
+                print(f"Slot {i:>2}: Deleted")
             else:
                 key, value = self.table[i] # unpack the (key, value) tuple
-                print(f"Slot {i}: {key} -> {value}")
+                print(f"Slot {i:>2}: {key} -> {value}")
 
     def insert(self, key, value):
         if self.count == self.size:

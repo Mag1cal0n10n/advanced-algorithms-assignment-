@@ -6,7 +6,7 @@ class Medicine:
         self.stock = stock # int: quantity of the medicine in stock
 
     def __str__(self):
-        return f"Medicine(ID: {self.product_id}, Name: {self.name}, Price: {self.price:.2f}, Stock: {self.stock})"
+        return f"ID: {self.product_id:<6} | Name: {self.name:<22} | Price: RM{self.price:>7.2f} | Stock: {self.stock:>6}"
 
 
 if __name__ == "__main__":
