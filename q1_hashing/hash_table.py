@@ -20,7 +20,6 @@ class HashTable:
 
     def insert(self, key, value):
         if self.count == self.size:
-            print("Hash table is full!")
             return -1
 
         index = self._hash(key)
@@ -57,9 +56,9 @@ class HashTable:
 
         while self.table[index] is not None and checked < self.size:
             if self.table[index] is self.DELETED:
-                        index = (index + 1) % self.size
-                        checked += 1
-                        continue
+                index = (index + 1) % self.size
+                checked += 1
+                continue
 
             stored_key, stored_value = self.table[index]
 
@@ -125,6 +124,7 @@ if __name__ == "__main__":
     print("Delete 9999:", t.delete(9999))   # expect False
     t.display()                             # slot 6 should show Deleted
 
-    print("Re-insert 1076:", t.insert(1076, "new"))  # after deleting 1059 & 1076: expect 6 (reuses the first tombstone)
+    print("Delete 1076: ", t.delete(1076))   # slot 7 should show Deleted
+    print("Re-insert 1076:", t.insert(1076, "new"))  # expect 6 (reuses the first tombstone)
     print("Search 1076:", t.search(1076))            # expect new
     t.display()                                      # 6 = 1076 -> new, 7 = Deleted

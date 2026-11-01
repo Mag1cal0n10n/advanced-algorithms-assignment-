@@ -49,35 +49,35 @@ while True:
     choice = input("Enter your choice: ").strip()
 
     if choice == '1':
-            # Get medicine details from user
-            try:
-                product_id = int(input("Enter product ID: "))
-                name = input("Enter medicine name: ").strip()
-                price = float(input("Enter price: "))
-                stock = int(input("Enter stock quantity: "))
-            except ValueError:
-                print("Invalid input. Please enter valid data types for product ID, price, and stock.")
-                continue
-            
-            if product_id <= 0 or price <= 0 or stock <= 0:
-                print("Product ID, price, and stock must be positive.")
-                continue
-            
-            if name == "":
-                print("Medicine name cannot be empty.")
-                continue
+        # Get medicine details from user
+        try:
+            product_id = int(input("Enter product ID: "))
+            name = input("Enter medicine name: ").strip()
+            price = float(input("Enter price: "))
+            stock = int(input("Enter stock quantity: "))
+        except ValueError:
+            print("Invalid input. Please enter valid data types for product ID, price, and stock.")
+            continue
+        
+        if product_id <= 0 or price <= 0 or stock <= 0:
+            print("Product ID, price, and stock must be positive.")
+            continue
+        
+        if name == "":
+            print("Medicine name cannot be empty.")
+            continue
 
-            if inv.search(product_id) is not None:
-                print(f"Medicine with product ID {product_id} already exists.")
-                continue
+        if inv.search(product_id) is not None:
+            print(f"Medicine with product ID {product_id} already exists.")
+            continue
 
-            new_medicine = Medicine(product_id, name, price, stock)
-            result = inv.insert(product_id, new_medicine) # Insert the new medicine into the hash table
-            if result == -1:
-                print("Failed to insert medicine. Table is full.")
-            else:
-                med_array.append(new_medicine) 
-                print(f"Medicine inserted into slot {result}.")
+        new_medicine = Medicine(product_id, name, price, stock)
+        result = inv.insert(product_id, new_medicine) # Insert the new medicine into the hash table
+        if result == -1:
+            print("Failed to insert medicine. Table is full.")
+        else:
+            med_array.append(new_medicine) 
+            print(f"Medicine inserted into slot {result}.")
 
     # Search for a medicine 
     elif choice == '2':
