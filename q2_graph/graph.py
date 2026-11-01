@@ -16,9 +16,11 @@ class Graph:
     def listIncomingAdjacentVertex(self, vertex):
         incoming = []                              # basket for the answers
         for other in self.adjacency:
-            if vertex in self.adjacency[other]:    # is vertex written on this?
-                print(other, "->", vertex)         
+            if vertex in self.adjacency[other]:    # is vertex written on this?     
                 incoming.append(other)
+
+            if vertex not in self.adjacency:            # if vertex is not in the graph
+                return []                               # return empty list
         return incoming
 
     def listOutgoingAdjacentVertex(self, vertex):
