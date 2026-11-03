@@ -45,7 +45,7 @@ def measure(n):
 
 
 if __name__ == "__main__":
-    # Quick check: both structures should find the same medicine
+    # Fixed seed so the random IDs are the same every run
     random.seed(42)
 
     print(f"{'Records':>9} {'List (ns)':>14} {'Hash(ns)':>12} {'Faster by':>11}")
