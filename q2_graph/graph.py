@@ -14,24 +14,42 @@ class Graph:
         return True
 
     def listIncomingAdjacentVertex(self, vertex):
-        incoming = []                              # basket for the answers
+        if vertex not in self.adjacency:            # if vertex is not in the graph
+            return []                               # return empty list
+        
+        incoming = []                              # vertices with an edge into 'vertex'
         for other in self.adjacency:
-            if vertex in self.adjacency[other]:    # is vertex written on this?     
+            if vertex in self.adjacency[other]:    # does 'other' point to 'vertex'? 
                 incoming.append(other)
 
-            if vertex not in self.adjacency:            # if vertex is not in the graph
-                return []                               # return empty list
         return incoming
 
     def listOutgoingAdjacentVertex(self, vertex):
         if vertex not in self.adjacency:
             return []
-        return self.adjacency[vertex]
+        return list(self.adjacency[vertex])     # a copy, so callers can't change the graph by accident
 
     def removeEdge(self, from_vertex, to_vertex):
         if from_vertex in self.adjacency and to_vertex in self.adjacency[from_vertex]:
             self.adjacency[from_vertex].remove(to_vertex)
             return True
+        return False
+
+    def hasPath(self, start, end):
+        if start not in self.adjacency or end not in self.adjacency:
+            return False
+
+        stack = [start]
+        visited = set()
+
+        while stack:
+            current = stack.pop()
+            if current == end:
+                return True
+            if current not in visited:
+                visited.add(current)
+                stack.extend(self.adjacency[current])
+
         return False
     
 if __name__ == "__main__":
