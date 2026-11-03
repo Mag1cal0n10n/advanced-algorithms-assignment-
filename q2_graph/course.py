@@ -6,22 +6,29 @@ class Course:
         self.is_elective = is_elective  # bool: True if the course is an elective, False if it is a core course
         self.description = description  # str: a brief description of the course
 
-    def __str__(self):
+    def course_type(self):
+        # Turns the True/False flag into a word for display
         if self.is_elective:
-            kind = "Elective"
-        else:
-            kind = "Required"
-        return f"{self.code:<8} | {self.name:<32} | {kind}"
+            return "Elective"
+        return "Required"
+
+    def __str__(self):
+        # One row of the course table
+        return f"{self.code:<8} | {self.name:<32} | {self.course_type()}"
 
     def details(self):
-        if self.is_elective:
-            return (f"Code          : {self.code}\n"
-                    f"Name          : {self.name}\n"
-                    f"Credits       : {self.credits}\n"
-                    f"Type          : Elective\n"
-                    f"Description   : {self.description}")
+        # Mandatory feature (b): shows ALL information, whether elective or not
         return (f"Code          : {self.code}\n"
                 f"Name          : {self.name}\n"
                 f"Credits       : {self.credits}\n"
-                f"Type          : Required\n"
+                f"Type          : {self.course_type()}\n"
                 f"Description   : {self.description}")
+
+    def profile(self):
+        # Advanced feature (b): electives show only the name, core courses show everything
+        if self.is_elective:
+            return (f"Code          : {self.code}\n"
+                    f"Name          : {self.name}\n"
+                    f"(Elective course: other details are hidden)")
+        return self.details()
+
