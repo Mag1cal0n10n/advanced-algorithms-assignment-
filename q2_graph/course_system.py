@@ -73,9 +73,10 @@ while True:
     print("  5. Add a new course")
     print("  6. Add a prerequisite")
     print("  7. Remove a prerequisite")
-    print("  8. Exit")
+    print("  8. View course profile")
+    print("  9. Exit")
     print(LINE)
-    choice = input("Enter your choice (1-8): ").strip()
+    choice = input("Enter your choice (1-9): ").strip()
     print()
 
 
@@ -100,7 +101,7 @@ while True:
         code = ask_course_code("Enter course code: ")
         if code is not None:
             print(f"Courses that require {code} ({courses[code].name}):")
-            print_course_code(graph.listOutgoingAdjacentVertex(code), "None - this course has no prerequisites")
+            print_course_code(graph.listOutgoingAdjacentVertex(code), "None - no course requires this one yet.")
 
     elif choice == "5":
         code = input("Enter new course code: ").strip().upper()
@@ -147,6 +148,9 @@ while True:
         if before == after:
             print("A course cannot be its own prerequisite.")
             continue
+        if graph.hasPath(after, before):
+            print(f"Cannot add: {after} already leads to {before}, so this would create a cycle.")
+            continue
         if before in graph.listIncomingAdjacentVertex(after):
             print(f"{before} is already a prerequisite of {after}.")
             continue
@@ -170,8 +174,15 @@ while True:
             print(f"{before} is not a prerequisite of {after}.")
 
     elif choice == "8":
+        code = ask_course_code("Enter course code: ")
+        if code is not None:
+            print(LINE)
+            print(courses[code].profile())
+            print(LINE)
+
+    elif choice == "9":
         print("Exiting the program.")
         break
 
     else:
-        print("Invalid choice. Please enter 1-8.")
+        print("Invalid choice. Please enter 1-9.")
