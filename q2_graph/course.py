@@ -24,11 +24,3 @@ class Course:
                 f"Type          : {self.course_type()}\n"
                 f"Description   : {self.description}")
 
-    def profile(self):
-        # Advanced feature (b): electives show only the name, core courses show everything
-        if self.is_elective:
-            return (f"Code          : {self.code}\n"
-                    f"Name          : {self.name}\n"
-                    f"(Elective course: other details are hidden)")
-        return self.details()
-
